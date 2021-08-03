@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1F39634E26B99680007C2D76 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F39634D26B99680007C2D76 /* DataManager.swift */; };
 		1F6C530826B70B1200B7C8CF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F6C530726B70B1200B7C8CF /* AppDelegate.swift */; };
 		1F6C530A26B70B1200B7C8CF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F6C530926B70B1200B7C8CF /* SceneDelegate.swift */; };
 		1F6C530C26B70B1200B7C8CF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F6C530B26B70B1200B7C8CF /* ViewController.swift */; };
@@ -16,6 +17,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1F39634D26B99680007C2D76 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		1F6C530426B70B1200B7C8CF /* CityWeather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CityWeather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F6C530726B70B1200B7C8CF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1F6C530926B70B1200B7C8CF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -58,6 +60,7 @@
 			children = (
 				1F6C530726B70B1200B7C8CF /* AppDelegate.swift */,
 				1F6C530926B70B1200B7C8CF /* SceneDelegate.swift */,
+				1F39634D26B99680007C2D76 /* DataManager.swift */,
 				1F6C530B26B70B1200B7C8CF /* ViewController.swift */,
 				1F6C530D26B70B1200B7C8CF /* Main.storyboard */,
 				1F6C531026B70B1500B7C8CF /* Assets.xcassets */,
@@ -138,6 +141,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1F6C530C26B70B1200B7C8CF /* ViewController.swift in Sources */,
+				1F39634E26B99680007C2D76 /* DataManager.swift in Sources */,
 				1F6C530826B70B1200B7C8CF /* AppDelegate.swift in Sources */,
 				1F6C530A26B70B1200B7C8CF /* SceneDelegate.swift in Sources */,
 			);
