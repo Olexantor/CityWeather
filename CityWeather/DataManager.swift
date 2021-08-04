@@ -5,4 +5,20 @@
 //  Created by Александр on 03.08.2021.
 //
 
-import Foundation
+class DataManager {
+    
+    static let share = DataManager()
+    
+    let cities = ["Abakan",
+                  "Barnaul",
+                  "Gdov",
+                  "Dubna",
+                  "Yekaterinburg",
+                  "Zlatoust",
+                  "Izhevsk",
+                  "Yoshkar-Ola",
+                  "Kazan",
+                  "Lensk"]
+    
+    private init() {}
+}
