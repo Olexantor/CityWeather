@@ -10,26 +10,26 @@ class StorageManager {
     static let shared = StorageManager()
     
     private let userDefaults = UserDefaults.standard
-    private let cityKey = "cities"
+    private let kCity = "cities"
     
     private init() {}
     
     func save(city: String) {
-        var cities = fetchCities()
+        var cities = fetchCities
         cities.append(city)
-        userDefaults.set(cities, forKey: cityKey)
+        userDefaults.set(cities, forKey: kCity)
     }
     
-    func fetchCities() -> [String] {
-        if let cities = userDefaults.value(forKey: cityKey) as? [String] {
+    var fetchCities: [String] {
+        if let cities = userDefaults.value(forKey: kCity) as? [String] {
             return cities
         }
         return DataManager.share.cities
     }
     
     func deleteCity(at index: Int) {
-        var cities = fetchCities()
+        var cities = fetchCities
         cities.remove(at: index)
-        userDefaults.set(cities, forKey: cityKey)
+        userDefaults.set(cities, forKey: kCity)
     }
 }
