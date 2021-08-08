@@ -79,10 +79,8 @@ extension ShortForecastViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         let cell = tableView.dequeueReusableCell(withIdentifier: "shortForecastCell", for: indexPath)
-
         let city = cities[indexPath.row]
         cell.textLabel?.text = city
-
         return cell
     }
 }
