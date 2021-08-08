@@ -6,17 +6,33 @@
 //
 
 import UIKit
+import SnapKit
 
-class ShortForecastViewController: UITableViewController {
+class ShortForecastViewController: UIViewController {
     
-    var cities = StorageManager.shared.cities
+    private var cities = StorageManager.shared.cities
+    private var tableView = UITableView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         setupNavigationBar()
+        setupTableView()
     }
 
+    private func setupTableView() {
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "shortForecastCell")
+        view.addSubview(tableView)
+    }
+    
+    override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        tableView.snp.makeConstraints {
+            $0.edges.equalToSuperview()
+        }
+    }
 
     private func setupNavigationBar() {
         title = "Short forecast"
@@ -52,22 +68,24 @@ class ShortForecastViewController: UITableViewController {
     @objc private func addNewCity() {
         
     }
-    // Setup TableView
-    override func numberOfSections(in tableView: UITableView) -> Int {
+}
+
+extension ShortForecastViewController: UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         cities.count
     }
     
-    
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+
         let cell = tableView.dequeueReusableCell(withIdentifier: "shortForecastCell", for: indexPath)
-        
         let city = cities[indexPath.row]
-        var content = cell.defaultContentConfiguration()
-        content.text = city
-        
+        cell.textLabel?.text = city
         return cell
-        
     }
+}
+
+extension ShortForecastViewController: UITableViewDelegate {
+    
 }
 

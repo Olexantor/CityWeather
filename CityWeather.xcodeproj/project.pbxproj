@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -13,6 +13,7 @@
 		1F6C530C26B70B1200B7C8CF /* ShortForecastViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F6C530B26B70B1200B7C8CF /* ShortForecastViewController.swift */; };
 		1F6C531126B70B1500B7C8CF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1F6C531026B70B1500B7C8CF /* Assets.xcassets */; };
 		1F6C531426B70B1500B7C8CF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1F6C531226B70B1500B7C8CF /* LaunchScreen.storyboard */; };
+		ECC4632B26C03F3A00A9205D /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = ECC4632A26C03F3A00A9205D /* SnapKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +32,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ECC4632B26C03F3A00A9205D /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -83,6 +85,9 @@
 			dependencies = (
 			);
 			name = CityWeather;
+			packageProductDependencies = (
+				ECC4632A26C03F3A00A9205D /* SnapKit */,
+			);
 			productName = CityWeather;
 			productReference = 1F6C530426B70B1200B7C8CF /* CityWeather.app */;
 			productType = "com.apple.product-type.application";
@@ -110,6 +115,9 @@
 				Base,
 			);
 			mainGroup = 1F6C52FB26B70B1200B7C8CF;
+			packageReferences = (
+				ECC4632926C03F3A00A9205D /* XCRemoteSwiftPackageReference "SnapKit" */,
+			);
 			productRefGroup = 1F6C530526B70B1200B7C8CF /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -335,6 +343,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		ECC4632926C03F3A00A9205D /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		ECC4632A26C03F3A00A9205D /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = ECC4632926C03F3A00A9205D /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 1F6C52FC26B70B1200B7C8CF /* Project object */;
 }
