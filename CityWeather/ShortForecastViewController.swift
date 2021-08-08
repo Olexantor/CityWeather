@@ -52,35 +52,20 @@ class ShortForecastViewController: UITableViewController {
     @objc private func addNewCity() {
         
     }
-//    override func numberOfSections(in tableView: UITableView) -> Int {
-//        cities.count
-//    }
-//    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//
-//        let cell = tableView.dequeueReusableCell(withIdentifier: "shortForecastCell", for: indexPath)
-//
-//        let city = cities[indexPath.row]
-//        var content = cell.defaultContentConfiguration()
-//        content.text = city
-//
-//        return cell
-    
-}
-
-extension ShortForecastViewController {
-
+    // Setup TableView
     override func numberOfSections(in tableView: UITableView) -> Int {
         cities.count
     }
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "shortForecastCell", for: indexPath)
-
+        
         let city = cities[indexPath.row]
         var content = cell.defaultContentConfiguration()
         content.text = city
-
+        
         return cell
+        
     }
 }
 
