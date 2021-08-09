@@ -88,14 +88,14 @@ class ShortForecastViewController: UIViewController {
 extension ShortForecastViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        cities.count
+        StorageManager.shared.cities.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         let cell = tableView.dequeueReusableCell(withIdentifier: "shortForecastCell", for: indexPath)
         var content = cell.defaultContentConfiguration()
-        let city = cities[indexPath.row]
+        let city = StorageManager.shared.cities[indexPath.row]
         content.text = city
         content.secondaryText = city
         content.image = UIImage(systemName: "cloud.fill")
