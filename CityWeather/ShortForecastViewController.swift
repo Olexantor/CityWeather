@@ -66,7 +66,22 @@ class ShortForecastViewController: UIViewController {
     }
     
     @objc private func addNewCity() {
-        
+        showAlert(with: "Add a new city", and: "Write the name of the city in English with a capital letter")
+    }
+    
+    private func showAlert(with title: String, and message: String) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let saveAction = UIAlertAction(title: "Save", style: .default) { _ in
+            guard let city = alert.textFields?.first?.text, !city.isEmpty else { return }
+            StorageManager.shared.save(city: city)
+            let cellIndex = IndexPath(row: StorageManager.shared.cities.count - 1, section: 0)
+            self.tableView.insertRows(at: [cellIndex], with: .automatic)
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .destructive)
+        alert.addTextField()
+        alert.addAction(saveAction)
+        alert.addAction(cancelAction)
+        present(alert, animated: true)
     }
 }
 
@@ -79,9 +94,17 @@ extension ShortForecastViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         let cell = tableView.dequeueReusableCell(withIdentifier: "shortForecastCell", for: indexPath)
+        var content = cell.defaultContentConfiguration()
         let city = cities[indexPath.row]
-        cell.textLabel?.text = city
+        content.text = city
+        content.secondaryText = city
+        content.image = UIImage(systemName: "cloud.fill")
+        cell.contentConfiguration = content
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        80
     }
 }
 
