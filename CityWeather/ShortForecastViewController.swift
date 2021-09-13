@@ -18,6 +18,7 @@ class ShortForecastViewController: UIViewController {
         view.backgroundColor = .white
         setupNavigationBar()
         setupTableView()
+        navigationItem.leftBarButtonItem = editButtonItem
     }
 
     private func setupTableView() {
@@ -61,6 +62,7 @@ class ShortForecastViewController: UIViewController {
             target: self,
             action: #selector(addNewCity)
         )
+
         
         navigationController?.navigationBar.tintColor = .white
     }
@@ -106,9 +108,23 @@ extension ShortForecastViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         80
     }
+    
+   
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        return .delete
+    }
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            StorageManager.shared.deleteCity(at: indexPath.item)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        }
+    }
 }
 
 extension ShortForecastViewController: UITableViewDelegate {
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true )
+    }
 }
 
