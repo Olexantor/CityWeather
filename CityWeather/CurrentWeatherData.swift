@@ -1,5 +1,5 @@
 //
-//  Weather.swift
+//  CurrentWeatherData.swift
 //  CityWeather
 //
 //  Created by Александр on 22.09.2021.
@@ -7,14 +7,14 @@
 
 import Foundation
 
-struct Weather: Codable {
+struct CurrentWeatherData: Decodable {
     let geo_object: GeoObject
 }
 
-struct GeoObject: Codable {
+struct GeoObject: Decodable {
     let locality: Locality
 }
 
-struct Locality: Codable {
+struct Locality: Decodable {
     let name: String
 }

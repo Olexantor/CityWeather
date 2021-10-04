@@ -10,11 +10,13 @@ import SnapKit
 
 class ShortForecastViewController: UIViewController {
     
+    
     private var cities = StorageManager.shared.cities
     private var tableView = UITableView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        NetworkManager.shared.fetchCurrentWeather()
         view.backgroundColor = .white
         setupNavigationBar()
         setupTableView()
