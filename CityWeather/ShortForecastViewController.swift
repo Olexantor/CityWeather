@@ -7,12 +7,14 @@
 
 import UIKit
 import SnapKit
+import Alamofire
 
 class ShortForecastViewController: UIViewController {
     
     
     private var cities = StorageManager.shared.cities
     private var tableView = UITableView()
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
