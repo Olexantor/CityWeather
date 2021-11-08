@@ -41,7 +41,7 @@ struct CurrentWeather {
         case "light-rain":
             return "lightrain"
         case "rain":
-            return "raynyday"
+            return "rainyday"
         case "moderate-rain":
             return "rainyday"
         case "heavy-rain":

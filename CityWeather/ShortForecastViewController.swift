@@ -102,8 +102,8 @@ extension ShortForecastViewController: UITableViewDataSource {
 
         let cell = tableView.dequeueReusableCell(withIdentifier: "shortForecastCell", for: indexPath)
         var content = cell.defaultContentConfiguration()
-//        content.text = weatherInCities[indexPath.row].nameOfCity
-        content.text = cities[indexPath.row]
+        content.text = weatherInCities[indexPath.row].nameOfCity
+//        content.text = cities[indexPath.row]
         content.secondaryText = weatherInCities[indexPath.row].tempString
         content.image = UIImage(named: weatherInCities[indexPath.row].conditionName)
         cell.contentConfiguration = content
