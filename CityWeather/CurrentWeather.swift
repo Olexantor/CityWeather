@@ -12,8 +12,8 @@ struct CurrentWeather {
     let temp: Int
     let tempFeelsLike: Int
     let condition: String
-    let windSpeed: Double
-    let windDirection: String
+    let windSpeed: String
+    let windDirEng: String
     let pressure: Int
     let humidity: Int
     
@@ -22,10 +22,10 @@ struct CurrentWeather {
         temp = data.fact.temp
         tempFeelsLike = data.fact.tempFeelsLike
         condition = data.fact.condition
-        windSpeed = data.fact.windSpeed
-        windDirection = data.fact.windDirection
-        humidity = data.fact.humidity
+        windSpeed = String(data.fact.windSpeed)
+        windDirEng = data.fact.windDirection
         pressure = data.fact.humidity
+        humidity = data.fact.humidity
     }
         
     var conditionName: String {
@@ -70,5 +70,51 @@ struct CurrentWeather {
             return "cloudy"
         }
     }
-  
+    var tempString: String {
+        switch temp {
+        case 1...100:
+            return "+\(temp)ºC"
+        default:
+            return "\(temp)ºC"
+        }
+    }
+    var tempFeelsLikeString: String {
+        switch tempFeelsLike {
+        case 1...100:
+            return "+\(tempFeelsLike)ºC"
+        default:
+            return "\(tempFeelsLike)ºC"
+        }
+    }
+    
+    var windDirRus: String {
+        switch windDirEng {
+        case "nw":
+            return "Северо-западное"
+        case "n":
+            return "Cеверное"
+        case "ne":
+            return "Cеверо-восточное"
+        case "e":
+            return "Восточное"
+        case "se":
+            return "Юго-восточное"
+        case "s":
+            return "Южное"
+        case "sw":
+            return "Юго-западное"
+        case "w":
+            return "Западное"
+        default:
+            return "Штиль"
+        }
+    }
+
+    var pressureString: String {
+        return "\(pressure)мм.рт.ст."
+    }
+    
+    var humidityString: String {
+        return "\(humidity)%"
+    }
 }
