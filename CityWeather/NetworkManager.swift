@@ -11,24 +11,56 @@ import Alamofire
 
 class NetworkManager {
     static let shared = NetworkManager()
-    
-    private init() {}
-    
-    
-    
-    func fetchCurrentWeather() {
-        let urlString = "https://api.weather.yandex.ru/v2/forecast?lat=59.6033400&lon=60.5787000&lang=en_US"
+        
+    func fetchCurrentWeather(
+        latitude: Double,
+        longitude: Double,
+        completion: @escaping (Result<CurrentWeather, Error>) -> Void
+    ) {
+        
+        let url = urlYandex + "lat=" + String(latitude) + "&lon=" + String(longitude)
         let header: HTTPHeaders = [apiHeader: apiKey]
-        AF.request(urlString, headers: header).validate().responseJSON { responseData in
-            print(responseData)
+        AF.request(url, headers: header).validate().responseJSON { response in
+            switch response.result {
+            case .success:
+                do {
+                    guard let data = response.data else { return }
+                    let json = try JSONDecoder().decode(CurrentWeatherData.self, from: data)
+                    guard let weather = CurrentWeather(data: json) else { return }
+                    completion(.success(weather))
+                } catch {
+                    print(error)
+                }
+            case .failure(let error):
+                print(error)
             }
         }
+    }
     
     
+    func getCityWeather(cities:[String], completion: @escaping (CurrentWeather) -> Void) {
+        for city in cities {
+            getCoordinate(cityString: city) { coordinate, error in
+                if error == nil {
+                    self.fetchCurrentWeather(
+                        latitude: coordinate.latitude,
+                        longitude: coordinate.longitude) { result in
+                        
+                        switch result {
+                        
+                        case .success(let weather):
+                            completion(weather)
+                        case .failure(let error):
+                            print(error.localizedDescription)
+                        }
+                    }
+                }
+            }
+        }
+    }
     
     
-    
-    func getCoordinate(cityString : String,
+   func getCoordinate(cityString : String,
                         completionHandler: @escaping(CLLocationCoordinate2D, NSError?) -> Void ) {
         let geocoder = CLGeocoder()
         geocoder.geocodeAddressString(cityString) { (placemarks, error) in
@@ -44,4 +76,5 @@ class NetworkManager {
             completionHandler(kCLLocationCoordinate2DInvalid, error as NSError?)
         }
     }
+    private init() {}
 }
