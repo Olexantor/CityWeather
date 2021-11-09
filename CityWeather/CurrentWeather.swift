@@ -24,10 +24,10 @@ struct CurrentWeather {
         condition = data.fact.condition
         windSpeed = String(data.fact.windSpeed)
         windDirEng = data.fact.windDirection
-        pressure = data.fact.humidity
+        pressure = data.fact.pressure
         humidity = data.fact.humidity
     }
-        
+    
     var conditionName: String {
         switch condition {
         case "clear":
@@ -109,7 +109,7 @@ struct CurrentWeather {
             return "Штиль"
         }
     }
-
+    
     var pressureString: String {
         return "\(pressure)мм.рт.ст."
     }
