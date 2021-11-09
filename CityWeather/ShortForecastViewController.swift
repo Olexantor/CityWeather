@@ -7,19 +7,24 @@
 
 import UIKit
 import SnapKit
+import Alamofire
 
 class ShortForecastViewController: UIViewController {
     
+    
     private var cities = StorageManager.shared.cities
     private var tableView = UITableView()
-
+    var weatherInCities: [CurrentWeather] = []
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         setupNavigationBar()
+        getCitiesWeather()
         setupTableView()
     }
-
+    
     private func setupTableView() {
         tableView.delegate = self
         tableView.dataSource = self
@@ -33,7 +38,7 @@ class ShortForecastViewController: UIViewController {
             $0.edges.equalToSuperview()
         }
     }
-
+    
     private func setupNavigationBar() {
         title = "Short forecast"
         navigationController?.navigationBar.prefersLargeTitles = true
@@ -89,17 +94,16 @@ class ShortForecastViewController: UIViewController {
 extension ShortForecastViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        StorageManager.shared.cities.count
+        weatherInCities.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "shortForecastCell", for: indexPath)
         var content = cell.defaultContentConfiguration()
-        let city = StorageManager.shared.cities[indexPath.row]
-        content.text = city
-        content.secondaryText = city
-        content.image = UIImage(systemName: "cloud.fill")
+        content.text = weatherInCities[indexPath.row].nameOfCity
+        content.secondaryText = weatherInCities[indexPath.row].tempString
+        content.image = UIImage(named: weatherInCities[indexPath.row].conditionName)
         cell.contentConfiguration = content
         return cell
     }
@@ -126,6 +130,18 @@ extension ShortForecastViewController: UITableViewDelegate {
             
         }
         return UISwipeActionsConfiguration(actions: [deleteAction])
+    }
+}
+// MARK: - API Methods
+extension ShortForecastViewController {
+    func getCitiesWeather() {
+        NetworkManager.shared.getCityWeather(cities: cities) { [weak self] weather in
+            guard let self = self else { return }
+            self.weatherInCities.append(weather)
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
     }
 }
 
