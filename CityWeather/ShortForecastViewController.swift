@@ -14,7 +14,7 @@ class ShortForecastViewController: UIViewController {
     
     private var cities = StorageManager.shared.cities
     private var tableView = UITableView()
-    var weatherInCities: [CurrentWeather] = []
+    var weatherInCities = [Int: CurrentWeather]()
     
     
     override func viewDidLoad() {
@@ -101,9 +101,9 @@ extension ShortForecastViewController: UITableViewDataSource {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "shortForecastCell", for: indexPath)
         var content = cell.defaultContentConfiguration()
-        content.text = weatherInCities[indexPath.row].nameOfCity
-        content.secondaryText = weatherInCities[indexPath.row].tempString
-        content.image = UIImage(named: weatherInCities[indexPath.row].conditionName)
+        content.text = weatherInCities[indexPath.row]?.nameOfCity
+        content.secondaryText = weatherInCities[indexPath.row]?.tempString
+        content.image = UIImage(named: weatherInCities[indexPath.row]?.conditionName ?? "thundersthail")
         cell.contentConfiguration = content
         return cell
     }
@@ -135,9 +135,9 @@ extension ShortForecastViewController: UITableViewDelegate {
 // MARK: - API Methods
 extension ShortForecastViewController {
     func getCitiesWeather() {
-        NetworkManager.shared.getCityWeather(cities: cities) { [weak self] weather in
+        NetworkManager.shared.getCityWeather(cities: cities) { [weak self] (index,weather) in
             guard let self = self else { return }
-            self.weatherInCities.append(weather)
+            self.weatherInCities[index] = weather
             DispatchQueue.main.async {
                 self.tableView.reloadData()
             }

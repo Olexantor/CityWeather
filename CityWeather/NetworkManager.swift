@@ -38,8 +38,8 @@ class NetworkManager {
     }
     
     
-    func getCityWeather(cities:[String], completion: @escaping (CurrentWeather) -> Void) {
-        for city in cities {
+    func getCityWeather(cities:[String], completion: @escaping (Int, CurrentWeather) -> Void) {
+        for (index, city) in cities.enumerated() {
             getCoordinate(cityString: city) { coordinate, error in
                 if error == nil {
                     self.fetchCurrentWeather(
@@ -49,7 +49,7 @@ class NetworkManager {
                         switch result {
                         
                         case .success(let weather):
-                            completion(weather)
+                            completion(index, weather)
                         case .failure(let error):
                             print(error.localizedDescription)
                         }
