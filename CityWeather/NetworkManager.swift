@@ -12,7 +12,7 @@ import Alamofire
 class NetworkManager {
     static let shared = NetworkManager()
     
-    func fetchCurrentWeather(
+    private func fetchCurrentWeather(
         latitude: Double,
         longitude: Double,
         completion: @escaping (Result<CurrentWeather, Error>) -> Void
@@ -60,8 +60,8 @@ class NetworkManager {
     }
     
     
-    func getCoordinate(cityString : String,
-                       completionHandler: @escaping(CLLocationCoordinate2D, NSError?) -> Void ) {
+    private  func getCoordinate(cityString : String,
+                                completionHandler: @escaping(CLLocationCoordinate2D, NSError?) -> Void ) {
         let geocoder = CLGeocoder()
         geocoder.geocodeAddressString(cityString) { (placemarks, error) in
             if error == nil {
