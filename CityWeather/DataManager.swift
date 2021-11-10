@@ -18,7 +18,7 @@ class DataManager {
                   "Izhevsk",
                   "Yoshkar-Ola",
                   "Kazan",
-                  "Lensk"]
+                  "Serov"]
     
     private init() {}
 }

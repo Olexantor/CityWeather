@@ -51,9 +51,9 @@ struct CurrentWeather {
         case "showers":
             return "heavy"
         case "wet-snow":
-            return "wet-snow"
+            return "wetsnow"
         case "light-snow":
-            return "light-snow"
+            return "lightsnow"
         case "snow":
             return "snow"
         case "snow-showers":
@@ -65,7 +65,7 @@ struct CurrentWeather {
         case "thunderstorm-with-rain":
             return "thunderrain"
         case "thunderstorm-with-hail":
-            return "thunderhail"
+            return "thundersthail"
         default:
             return "cloudy"
         }

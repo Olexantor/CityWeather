@@ -125,7 +125,9 @@ extension ShortForecastViewController: UITableViewDelegate {
         let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { (action, view, completionHandler) in
             
             StorageManager.shared.deleteCity(at: indexPath.row)
+            self.weatherInCities[indexPath.row] = nil
             tableView.deleteRows(at: [indexPath], with: .automatic)
+            self.getCitiesWeather()
             completionHandler(true)
             
         }
@@ -138,6 +140,7 @@ extension ShortForecastViewController {
         NetworkManager.shared.getCityWeather(cities: cities) { [weak self] (index,weather) in
             guard let self = self else { return }
             self.weatherInCities[index] = weather
+            print(self.weatherInCities)
             DispatchQueue.main.async {
                 self.tableView.reloadData()
             }
