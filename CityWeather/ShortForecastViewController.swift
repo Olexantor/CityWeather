@@ -14,7 +14,8 @@ class ShortForecastViewController: UIViewController {
     
     private var cities = StorageManager.shared.cities
     private var tableView = UITableView()
-    var weatherInCities = [Int: CurrentWeather]()
+    var weatherInCitiesDic = [Int: CurrentWeather]()
+    var weatherInCities = [CurrentWeather]()
     
     
     override func viewDidLoad() {
@@ -79,8 +80,6 @@ class ShortForecastViewController: UIViewController {
         let saveAction = UIAlertAction(title: "Save", style: .default) { _ in
             guard let city = alert.textFields?.first?.text, !city.isEmpty else { return }
             StorageManager.shared.save(city: city)
-            let cellIndex = IndexPath(row: StorageManager.shared.cities.count - 1, section: 0)
-            self.tableView.insertRows(at: [cellIndex], with: .automatic)
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .destructive)
         alert.addTextField()
@@ -101,9 +100,9 @@ extension ShortForecastViewController: UITableViewDataSource {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "shortForecastCell", for: indexPath)
         var content = cell.defaultContentConfiguration()
-        content.text = weatherInCities[indexPath.row]?.nameOfCity
-        content.secondaryText = weatherInCities[indexPath.row]?.tempString
-        content.image = UIImage(named: weatherInCities[indexPath.row]?.conditionName ?? "thundersthail")
+        content.text = weatherInCities[indexPath.row].nameOfCity
+        content.secondaryText = weatherInCities[indexPath.row].tempString
+        content.image = UIImage(named: weatherInCitiesDic[indexPath.row]?.conditionName ?? "thundersthail")
         cell.contentConfiguration = content
         return cell
     }
@@ -125,6 +124,7 @@ extension ShortForecastViewController: UITableViewDelegate {
         let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { (action, view, completionHandler) in
             
             StorageManager.shared.deleteCity(at: indexPath.row)
+            self.weatherInCities.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .automatic)
             completionHandler(true)
             
@@ -135,13 +135,16 @@ extension ShortForecastViewController: UITableViewDelegate {
 // MARK: - API Methods
 extension ShortForecastViewController {
     func getCitiesWeather() {
-        NetworkManager.shared.getCityWeather(cities: cities) { [weak self] (index,weather) in
+        NetworkManager.shared.getWeatherFor(cities: cities) { [weak self] (index,weather) in
             guard let self = self else { return }
-            self.weatherInCities[index] = weather
+            self.weatherInCitiesDic[index] = weather
+            self.weatherInCities = self.weatherInCitiesDic.sorted(by: { $0.0 < $1.0 }).map { $0.value }
+            print(self.weatherInCities)
             DispatchQueue.main.async {
                 self.tableView.reloadData()
             }
         }
     }
 }
+
 

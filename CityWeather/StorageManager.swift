@@ -22,7 +22,7 @@ class StorageManager {
     
     var cities: [String] {
         if let cities = userDefaults.value(forKey: kCity) as? [String] {
-            return cities
+            return !cities.isEmpty ? cities : DataManager.share.cities
         }
         return DataManager.share.cities
     }
