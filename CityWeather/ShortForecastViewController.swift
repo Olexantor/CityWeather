@@ -22,7 +22,7 @@ class ShortForecastViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         setupNavigationBar()
-        getCitiesWeather()
+        getWeatherInCities()
         setupTableView()
     }
     
@@ -80,6 +80,7 @@ class ShortForecastViewController: UIViewController {
         let saveAction = UIAlertAction(title: "Save", style: .default) { _ in
             guard let city = alert.textFields?.first?.text, !city.isEmpty else { return }
             StorageManager.shared.save(city: city)
+            self.getWeatherInCity()
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .destructive)
         alert.addTextField()
@@ -102,7 +103,7 @@ extension ShortForecastViewController: UITableViewDataSource {
         var content = cell.defaultContentConfiguration()
         content.text = weatherInCities[indexPath.row].nameOfCity
         content.secondaryText = weatherInCities[indexPath.row].tempString
-        content.image = UIImage(named: weatherInCitiesDic[indexPath.row]?.conditionName ?? "thundersthail")
+        content.image = UIImage(named: weatherInCities[indexPath.row].conditionName)
         cell.contentConfiguration = content
         return cell
     }
@@ -134,8 +135,8 @@ extension ShortForecastViewController: UITableViewDelegate {
 }
 // MARK: - API Methods
 extension ShortForecastViewController {
-    func getCitiesWeather() {
-        NetworkManager.shared.getWeatherFor(cities: cities) { [weak self] (index,weather) in
+    private func getWeatherInCities() {
+        NetworkManager.shared.getWeatherFor(cities: StorageManager.shared.cities) { [weak self] (index,weather) in
             guard let self = self else { return }
             self.weatherInCitiesDic[index] = weather
             self.weatherInCities = self.weatherInCitiesDic.sorted(by: { $0.0 < $1.0 }).map { $0.value }
@@ -145,6 +146,17 @@ extension ShortForecastViewController {
             }
         }
     }
+    
+    private func getWeatherInCity() {
+        NetworkManager.shared.getWeatherFor(city: StorageManager.shared.cities) { [weak self] (weather) in
+            guard let self = self else { return }
+            self.weatherInCities.append(weather)
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
+        }
+    }
 }
+
 
 
