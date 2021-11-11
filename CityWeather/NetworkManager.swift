@@ -37,6 +37,24 @@ class NetworkManager {
         }
     }
     
+    func getWeatherFor(city: String, completion: @escaping (CurrentWeather) -> Void) {
+        getCoordinate(cityString: city) { coordinate, error in
+            if error == nil {
+                self.fetchCurrentWeather(
+                    latitude: coordinate.latitude,
+                    longitude: coordinate.longitude) { result in
+                    
+                    switch result {
+                    
+                    case .success(let weather):
+                        completion(weather)
+                    case .failure(let error):
+                        print(error.localizedDescription)
+                    }
+                }
+            }
+        }
+    }
     
     func getWeatherFor(cities:[String], completion: @escaping (Int, CurrentWeather) -> Void) {
         for (index, city) in cities.enumerated() {
