@@ -148,7 +148,7 @@ extension ShortForecastViewController {
     }
     
     private func getWeatherInCity() {
-        NetworkManager.shared.getWeatherFor(city: StorageManager.shared.cities) { [weak self] (weather) in
+        NetworkManager.shared.getWeatherFor(city: StorageManager.shared.cities.last ?? "Moscow") { [weak self] (weather) in
             guard let self = self else { return }
             self.weatherInCities.append(weather)
             DispatchQueue.main.async {
