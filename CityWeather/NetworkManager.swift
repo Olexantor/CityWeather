@@ -38,7 +38,7 @@ class NetworkManager {
     }
     
     
-    func getCityWeather(cities:[String], completion: @escaping (Int, CurrentWeather) -> Void) {
+    func getWeatherFor(cities:[String], completion: @escaping (Int, CurrentWeather) -> Void) {
         for (index, city) in cities.enumerated() {
             getCoordinate(cityString: city) { coordinate, error in
                 if error == nil {

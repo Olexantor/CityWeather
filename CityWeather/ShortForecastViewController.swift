@@ -80,9 +80,6 @@ class ShortForecastViewController: UIViewController {
         let saveAction = UIAlertAction(title: "Save", style: .default) { _ in
             guard let city = alert.textFields?.first?.text, !city.isEmpty else { return }
             StorageManager.shared.save(city: city)
-//            let cellIndex = IndexPath(row: StorageManager.shared.cities.count - 1, section: 0)
-//            self.tableView.insertRows(at: [cellIndex], with: .automatic)
-            self.getCitiesWeather()
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .destructive)
         alert.addTextField()
@@ -138,7 +135,7 @@ extension ShortForecastViewController: UITableViewDelegate {
 // MARK: - API Methods
 extension ShortForecastViewController {
     func getCitiesWeather() {
-        NetworkManager.shared.getCityWeather(cities: cities) { [weak self] (index,weather) in
+        NetworkManager.shared.getWeatherFor(cities: cities) { [weak self] (index,weather) in
             guard let self = self else { return }
             self.weatherInCitiesDic[index] = weather
             self.weatherInCities = self.weatherInCitiesDic.sorted(by: { $0.0 < $1.0 }).map { $0.value }
@@ -147,8 +144,6 @@ extension ShortForecastViewController {
                 self.tableView.reloadData()
             }
         }
-        //            print(self.weatherInCities)
-        
     }
 }
 
