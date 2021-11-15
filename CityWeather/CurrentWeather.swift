@@ -111,19 +111,14 @@ struct CurrentWeather {
     }
     
     var windSpeedString: String {
-        switch windSpeed {
-        case 0...100:
-            return "Скорость ветра: \(windSpeed) м/с"
-        default:
-            return "Скорость ветра: \(windSpeed) м/с"
-        }
+        "Скорость ветра: \(windSpeed) м/с"
     }
     
     var pressureString: String {
-        return "Давление: \(pressure)мм.рт.ст."
+        "Давление: \(pressure)мм.рт.ст."
     }
     
     var humidityString: String {
-        return "Влажность: \(humidity)%"
+        "Влажность: \(humidity)%"
     }
 }

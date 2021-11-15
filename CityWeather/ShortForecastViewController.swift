@@ -77,12 +77,12 @@ class ShortForecastViewController: UIViewController {
     
     private func showAlert(with title: String, and message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let saveAction = UIAlertAction(title: "Save", style: .default) { _ in
+        let saveAction = UIAlertAction(title: "Сохранить", style: .default) { _ in
             guard let city = alert.textFields?.first?.text, !city.isEmpty else { return }
             StorageManager.shared.save(city: city)
             self.getWeatherInCity()
         }
-        let cancelAction = UIAlertAction(title: "Cancel", style: .destructive)
+        let cancelAction = UIAlertAction(title: "Отмена", style: .destructive)
         alert.addTextField()
         alert.addAction(saveAction)
         alert.addAction(cancelAction)
@@ -148,7 +148,8 @@ extension ShortForecastViewController {
     }
     
     private func getWeatherInCity() {
-        NetworkManager.shared.getWeatherFor(city: StorageManager.shared.cities.last ?? "Moscow") { [weak self] (weather) in
+        guard let lastCity = StorageManager.shared.cities.last else { return }
+        NetworkManager.shared.getWeatherFor(city: lastCity) { [weak self] (weather) in
             guard let self = self else { return }
             self.weatherInCities.append(weather)
             DispatchQueue.main.async {
