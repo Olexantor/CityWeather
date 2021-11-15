@@ -72,7 +72,7 @@ class ShortForecastViewController: UIViewController {
     }
     
     @objc private func addNewCity() {
-        showAlert(with: "Добавление города", and: "Напишите название города для добавления его в список")
+        showAlert(with: "Добавление населенного пункта", and: "Напишите название населенного пункта для добавления его в список")
     }
     
     private func showAlert(with title: String, and message: String) {
@@ -122,7 +122,7 @@ extension ShortForecastViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         
-        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { (action, view, completionHandler) in
+        let deleteAction = UIContextualAction(style: .destructive, title: "Удалить") { (action, view, completionHandler) in
             
             StorageManager.shared.deleteCity(at: indexPath.row)
             self.weatherInCities.remove(at: indexPath.row)
