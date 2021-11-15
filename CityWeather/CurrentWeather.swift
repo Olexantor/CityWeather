@@ -12,7 +12,7 @@ struct CurrentWeather {
     let temp: Int
     let tempFeelsLike: Int
     let condition: String
-    let windSpeed: String
+    let windSpeed: Double
     let windDirEng: String
     let pressure: Int
     let humidity: Int
@@ -22,7 +22,7 @@ struct CurrentWeather {
         temp = data.fact.temp
         tempFeelsLike = data.fact.tempFeelsLike
         condition = data.fact.condition
-        windSpeed = String(data.fact.windSpeed)
+        windSpeed = data.fact.windSpeed
         windDirEng = data.fact.windDirection
         pressure = data.fact.pressure
         humidity = data.fact.humidity
@@ -73,48 +73,57 @@ struct CurrentWeather {
     var tempString: String {
         switch temp {
         case 1...100:
-            return "+\(temp)ºC"
+            return "Температура +\(temp)ºC"
         default:
-            return "\(temp)ºC"
+            return "Температура \(temp)ºC"
         }
     }
     var tempFeelsLikeString: String {
         switch tempFeelsLike {
         case 1...100:
-            return "+\(tempFeelsLike)ºC"
+            return "Ощущается как +\(tempFeelsLike)ºC"
         default:
-            return "\(tempFeelsLike)ºC"
+            return "Ощущается как \(tempFeelsLike)ºC"
         }
     }
     
     var windDirRus: String {
         switch windDirEng {
         case "nw":
-            return "Северо-западное"
+            return "Направление ветра: СЗ"
         case "n":
-            return "Cеверное"
+            return "Направление ветра: С"
         case "ne":
-            return "Cеверо-восточное"
+            return "Направление ветра: СВ"
         case "e":
-            return "Восточное"
+            return "Направление ветра: В"
         case "se":
-            return "Юго-восточное"
+            return "Направление ветра: ЮВ"
         case "s":
-            return "Южное"
+            return "Направление ветра: Ю"
         case "sw":
-            return "Юго-западное"
+            return "Направление ветра: ЮЗ"
         case "w":
-            return "Западное"
+            return "Направление ветра: З"
         default:
             return "Штиль"
         }
     }
     
+    var windSpeedString: String {
+        switch windSpeed {
+        case 0...100:
+            return "Скорость ветра: \(windSpeed) м/с"
+        default:
+            return "Скорость ветра: \(windSpeed) м/с"
+        }
+    }
+    
     var pressureString: String {
-        return "\(pressure)мм.рт.ст."
+        return "Давление: \(pressure)мм.рт.ст."
     }
     
     var humidityString: String {
-        return "\(humidity)%"
+        return "Влажность: \(humidity)%"
     }
 }

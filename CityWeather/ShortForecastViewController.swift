@@ -41,7 +41,7 @@ class ShortForecastViewController: UIViewController {
     }
     
     private func setupNavigationBar() {
-        title = "Short forecast"
+        title = "Погода сейчас"
         navigationController?.navigationBar.prefersLargeTitles = true
         
         // Navigation Bar Appearance
@@ -72,7 +72,7 @@ class ShortForecastViewController: UIViewController {
     }
     
     @objc private func addNewCity() {
-        showAlert(with: "Add a new city", and: "Write the name of the city in English with a capital letter")
+        showAlert(with: "Добавление города", and: "Напишите название города для добавления его в список")
     }
     
     private func showAlert(with title: String, and message: String) {
