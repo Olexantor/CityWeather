@@ -115,7 +115,7 @@ struct CurrentWeather {
     }
     
     var pressureString: String {
-        "Давление: \(pressure)мм.рт.ст."
+        "Давление: \(pressure) мм.рт.ст."
     }
     
     var humidityString: String {
