@@ -118,6 +118,8 @@ extension ShortForecastViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true )
+        let detailedForecastVC = DetailedForecastViewController(weather: weatherInCities[indexPath.row])
+        present(detailedForecastVC, animated: true)
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {

@@ -9,23 +9,153 @@ import UIKit
 
 class DetailedForecastViewController: UIViewController {
     
+    private let weather: CurrentWeather
     
-
+    private let nameOfCityLabel: UILabel = {
+        let textLabel = UILabel()
+        textLabel.font = UIFont.boldSystemFont(ofSize: 35)
+        textLabel.textAlignment = .left
+        textLabel.numberOfLines = 0
+        textLabel.translatesAutoresizingMaskIntoConstraints = false
+        return textLabel
+    }()
+    
+    private let weatherIcon: UIImageView = {
+        let view = UIImageView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    private let temperatureLabel: UILabel = {
+        let textLabel = UILabel()
+        textLabel.font = UIFont.boldSystemFont(ofSize: 14)
+        textLabel.textAlignment = .left
+        textLabel.translatesAutoresizingMaskIntoConstraints = false
+        return textLabel
+    }()
+    
+    private let temperatureFeelsLikeLabel: UILabel = {
+        let textLabel = UILabel()
+        textLabel.font = UIFont.boldSystemFont(ofSize: 14)
+        textLabel.textAlignment = .left
+        textLabel.translatesAutoresizingMaskIntoConstraints = false
+        return textLabel
+    }()
+    
+    private let windSpeedLabel: UILabel = {
+        let textLabel = UILabel()
+        textLabel.font = UIFont.boldSystemFont(ofSize: 14)
+        textLabel.textAlignment = .right
+        textLabel.translatesAutoresizingMaskIntoConstraints = false
+        return textLabel
+    }()
+    
+    private let windDirectionLabel: UILabel = {
+        let textLabel = UILabel()
+        textLabel.font =  UIFont.boldSystemFont(ofSize: 14)
+        textLabel.textAlignment = .right
+        textLabel.translatesAutoresizingMaskIntoConstraints = false
+        return textLabel
+    }()
+    
+    private let pressureLabel: UILabel = {
+        let textLabel = UILabel()
+        textLabel.font = UIFont.boldSystemFont(ofSize: 14)
+        textLabel.textAlignment = .right
+        textLabel.translatesAutoresizingMaskIntoConstraints = false
+        return textLabel
+    }()
+    
+    private let humidityLabel: UILabel = {
+       let textLabel = UILabel()
+        textLabel.font = UIFont.boldSystemFont(ofSize: 14)
+        textLabel.textAlignment = .center
+        textLabel.translatesAutoresizingMaskIntoConstraints = false
+        return textLabel
+    }()
+    
+    init(weather: CurrentWeather) {
+        self.weather = weather
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        view.backgroundColor = .white
+        setupSubviews()
+        setConstraints()
+        updateUI()
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    private func setupSubviews() {
+        view.addSubview(nameOfCityLabel)
+        view.addSubview(weatherIcon)
+        view.addSubview(temperatureLabel)
+        view.addSubview(temperatureFeelsLikeLabel)
+        view.addSubview(windSpeedLabel)
+        view.addSubview(windDirectionLabel)
+        view.addSubview(pressureLabel)
+        view.addSubview(humidityLabel)
     }
-    */
-
+    
+    private func setConstraints() {
+        nameOfCityLabel.snp.makeConstraints { maker in
+            maker.top.equalToSuperview().inset(20)
+            maker.left.right.equalToSuperview().inset(30)
+//            maker.centerX.equalToSuperview()
+        }
+        
+        weatherIcon.snp.makeConstraints { maker in
+            maker.top.equalTo(nameOfCityLabel).inset(70)
+            maker.centerX.equalToSuperview()
+            maker.height.equalTo(70)
+            maker.width.equalTo(70)
+        }
+        
+        temperatureLabel.snp.makeConstraints { maker in
+            maker.top.equalTo(weatherIcon).inset(100)
+            maker.left.equalToSuperview().inset(15)
+        }
+        
+        temperatureFeelsLikeLabel.snp.makeConstraints { maker in
+            maker.top.equalTo(temperatureLabel).inset(30)
+            maker.left.equalToSuperview().inset(15)
+        }
+        
+        windSpeedLabel.snp.makeConstraints { maker in
+            maker.top.equalTo(weatherIcon).inset(100)
+            maker.right.equalToSuperview().inset(15)
+        }
+        
+        windDirectionLabel.snp.makeConstraints { maker in
+            maker.top.equalTo(windSpeedLabel).inset(30)
+            maker.right.equalToSuperview().inset(15)
+        }
+        
+        pressureLabel.snp.makeConstraints { maker in
+            maker.top.equalTo(windDirectionLabel).inset(50)
+            maker.centerX.equalToSuperview()
+        }
+        
+        humidityLabel.snp.makeConstraints { maker in
+            maker.top.equalTo(pressureLabel).inset(30)
+            maker.centerX.equalToSuperview()
+        }
+    }
+    
+    private func updateUI() {
+        nameOfCityLabel.text = weather.nameOfCity
+        weatherIcon.image = UIImage(named: weather.conditionName)
+        temperatureLabel.text = weather.tempString
+        temperatureFeelsLikeLabel.text = weather.tempFeelsLikeString
+        windSpeedLabel.text = weather.windSpeedString
+        windDirectionLabel.text = weather.windDirRus
+        pressureLabel.text = weather.pressureString
+        humidityLabel.text = weather.humidityString
+       
+    }
 }
