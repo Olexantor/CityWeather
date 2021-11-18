@@ -73,45 +73,45 @@ struct CurrentWeather {
     var tempString: String {
         switch temp {
         case 1...100:
-            return "Температура +\(temp)ºC"
+            return "Температура: +\(temp)ºC"
         default:
-            return "Температура \(temp)ºC"
+            return "Температура: \(temp)ºC"
         }
     }
     var tempFeelsLikeString: String {
         switch tempFeelsLike {
         case 1...100:
-            return "Ощущается как +\(tempFeelsLike)ºC"
+            return "Ощущается как: +\(tempFeelsLike)ºC"
         default:
-            return "Ощущается как \(tempFeelsLike)ºC"
+            return "Ощущается как: \(tempFeelsLike)ºC"
         }
     }
     
     var windDirRus: String {
         switch windDirEng {
         case "nw":
-            return "Направление ветра: СЗ"
+            return "Направление: СЗ"
         case "n":
-            return "Направление ветра: С"
+            return "Направление: С"
         case "ne":
-            return "Направление ветра: СВ"
+            return "Направление: СВ"
         case "e":
-            return "Направление ветра: В"
+            return "Направление: В"
         case "se":
-            return "Направление ветра: ЮВ"
+            return "Направление: ЮВ"
         case "s":
-            return "Направление ветра: Ю"
+            return "Направление: Ю"
         case "sw":
-            return "Направление ветра: ЮЗ"
+            return "Направление: ЮЗ"
         case "w":
-            return "Направление ветра: З"
+            return "Направление: З"
         default:
             return "Штиль"
         }
     }
     
     var windSpeedString: String {
-        "Скорость ветра: \(windSpeed) м/с"
+        "Ветер: \(windSpeed) м/с"
     }
     
     var pressureString: String {
