@@ -14,7 +14,7 @@ class DetailedForecastViewController: UIViewController {
     private let nameOfCityLabel: UILabel = {
         let textLabel = UILabel()
         textLabel.font = UIFont.boldSystemFont(ofSize: 35)
-        textLabel.textAlignment = .left
+        textLabel.textAlignment = .center
         textLabel.numberOfLines = 0
         textLabel.translatesAutoresizingMaskIntoConstraints = false
         return textLabel
@@ -23,13 +23,15 @@ class DetailedForecastViewController: UIViewController {
     private let weatherIcon: UIImageView = {
         let view = UIImageView()
         view.translatesAutoresizingMaskIntoConstraints = false
+        view.alpha = 0
+        
         return view
     }()
     
     private let temperatureLabel: UILabel = {
         let textLabel = UILabel()
         textLabel.font = UIFont.boldSystemFont(ofSize: 14)
-        textLabel.textAlignment = .left
+        textLabel.textAlignment = .center
         textLabel.translatesAutoresizingMaskIntoConstraints = false
         return textLabel
     }()
@@ -37,7 +39,7 @@ class DetailedForecastViewController: UIViewController {
     private let temperatureFeelsLikeLabel: UILabel = {
         let textLabel = UILabel()
         textLabel.font = UIFont.boldSystemFont(ofSize: 14)
-        textLabel.textAlignment = .left
+        textLabel.textAlignment = .center
         textLabel.translatesAutoresizingMaskIntoConstraints = false
         return textLabel
     }()
@@ -45,7 +47,7 @@ class DetailedForecastViewController: UIViewController {
     private let windSpeedLabel: UILabel = {
         let textLabel = UILabel()
         textLabel.font = UIFont.boldSystemFont(ofSize: 14)
-        textLabel.textAlignment = .right
+        textLabel.textAlignment = .center
         textLabel.translatesAutoresizingMaskIntoConstraints = false
         return textLabel
     }()
@@ -53,7 +55,7 @@ class DetailedForecastViewController: UIViewController {
     private let windDirectionLabel: UILabel = {
         let textLabel = UILabel()
         textLabel.font =  UIFont.boldSystemFont(ofSize: 14)
-        textLabel.textAlignment = .right
+        textLabel.textAlignment = .center
         textLabel.translatesAutoresizingMaskIntoConstraints = false
         return textLabel
     }()
@@ -61,7 +63,7 @@ class DetailedForecastViewController: UIViewController {
     private let pressureLabel: UILabel = {
         let textLabel = UILabel()
         textLabel.font = UIFont.boldSystemFont(ofSize: 14)
-        textLabel.textAlignment = .right
+        textLabel.textAlignment = .center
         textLabel.translatesAutoresizingMaskIntoConstraints = false
         return textLabel
     }()
@@ -91,6 +93,13 @@ class DetailedForecastViewController: UIViewController {
         updateUI()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        UIView.animate(withDuration: 0.3) {
+            self.weatherIcon.alpha = 1
+        }
+    }
+    
     private func setupSubviews() {
         view.addSubview(nameOfCityLabel)
         view.addSubview(weatherIcon)
@@ -106,34 +115,33 @@ class DetailedForecastViewController: UIViewController {
         nameOfCityLabel.snp.makeConstraints { maker in
             maker.top.equalToSuperview().inset(20)
             maker.left.right.equalToSuperview().inset(30)
-//            maker.centerX.equalToSuperview()
+            maker.bottom.equalTo(weatherIcon.snp.top).inset(-32)
         }
         
         weatherIcon.snp.makeConstraints { maker in
-            maker.top.equalTo(nameOfCityLabel).inset(70)
             maker.centerX.equalToSuperview()
-            maker.height.equalTo(70)
-            maker.width.equalTo(70)
+            maker.size.equalTo(70)
+            
         }
         
         temperatureLabel.snp.makeConstraints { maker in
             maker.top.equalTo(weatherIcon).inset(100)
-            maker.left.equalToSuperview().inset(15)
+            maker.centerX.equalToSuperview()
         }
         
         temperatureFeelsLikeLabel.snp.makeConstraints { maker in
             maker.top.equalTo(temperatureLabel).inset(30)
-            maker.left.equalToSuperview().inset(15)
+            maker.centerX.equalToSuperview()
         }
         
         windSpeedLabel.snp.makeConstraints { maker in
-            maker.top.equalTo(weatherIcon).inset(100)
-            maker.right.equalToSuperview().inset(15)
+            maker.top.equalTo(temperatureFeelsLikeLabel).inset(50)
+            maker.centerX.equalToSuperview()
         }
         
         windDirectionLabel.snp.makeConstraints { maker in
             maker.top.equalTo(windSpeedLabel).inset(30)
-            maker.right.equalToSuperview().inset(15)
+            maker.centerX.equalToSuperview()
         }
         
         pressureLabel.snp.makeConstraints { maker in
@@ -156,6 +164,5 @@ class DetailedForecastViewController: UIViewController {
         windDirectionLabel.text = weather.windDirRus
         pressureLabel.text = weather.pressureString
         humidityLabel.text = weather.humidityString
-       
     }
 }
