@@ -90,7 +90,7 @@ class ShortForecastViewController: UIViewController {
         definesPresentationContext = true
         searchController.searchBar.searchTextField.addTarget(self, action: #selector(searchButtonTapped), for: UIControl.Event.primaryActionTriggered)
     }
-    @objc func searchButtonTapped(textField:UITextField) {
+    @objc private func searchButtonTapped(textField:UITextField) {
         searchBarButtonClicked(searchController.searchBar)
     }
     
