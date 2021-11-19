@@ -158,6 +158,7 @@ extension ShortForecastViewController: UITableViewDelegate {
         }
         let detailedForecastVC = DetailedForecastViewController(weather: weather)
         present(detailedForecastVC, animated: true)
+        searchController.searchBar.text = ""
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
@@ -221,9 +222,9 @@ extension ShortForecastViewController: UISearchBarDelegate {
             guard let self = self else { return }
             let detailedForecastVC = DetailedForecastViewController(weather: weather)
             self.present(detailedForecastVC, animated: true)
+            searchBar.text = ""
         }
     }
 }
-
 
 
