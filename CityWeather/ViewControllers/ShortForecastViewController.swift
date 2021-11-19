@@ -14,14 +14,24 @@ class ShortForecastViewController: UIViewController {
     
     private var cities = StorageManager.shared.cities
     private var tableView = UITableView()
-    var weatherInCitiesDic = [Int: CurrentWeather]()
-    var weatherInCities = [CurrentWeather]()
+    private var weatherInCitiesDic = [Int: CurrentWeather]()
+    private var weatherInCities = [CurrentWeather]()
+    private let searchController = UISearchController(searchResultsController: nil)
+    private var filteredWeather = [CurrentWeather]()
+    private var searchBarIsEmpty: Bool {
+        guard let text = searchController.searchBar.text else { return false}
+        return text.isEmpty
+    }
+    private var isFiltering: Bool {
+        return searchController.isActive && !searchBarIsEmpty
+    }
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         setupNavigationBar()
+        setupSearchController()
         getWeatherInCities()
         setupTableView()
     }
@@ -71,6 +81,19 @@ class ShortForecastViewController: UIViewController {
         navigationController?.navigationBar.tintColor = .white
     }
     
+    private func setupSearchController() {
+        searchController.searchResultsUpdater = self
+        searchController.searchBar.delegate = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = "Поиск"
+        navigationItem.searchController = searchController
+        definesPresentationContext = true
+        searchController.searchBar.searchTextField.addTarget(self, action: #selector(searchButtonTapped), for: UIControl.Event.primaryActionTriggered)
+    }
+    @objc private func searchButtonTapped(textField:UITextField) {
+        searchBarButtonClicked(searchController.searchBar)
+    }
+    
     @objc private func addNewCity() {
         showAlert(with: "Добавление населенного пункта", and: "Напишите название населенного пункта для добавления его в список")
     }
@@ -94,16 +117,25 @@ class ShortForecastViewController: UIViewController {
 extension ShortForecastViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        weatherInCities.count
+        if isFiltering {
+            return filteredWeather.count
+        }
+        return weatherInCities.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "shortForecastCell", for: indexPath)
+        var weather: CurrentWeather
+        if isFiltering {
+            weather = filteredWeather[indexPath.row]
+        } else {
+            weather = weatherInCities[indexPath.row]
+        }
         var content = cell.defaultContentConfiguration()
-        content.text = weatherInCities[indexPath.row].nameOfCity
-        content.secondaryText = weatherInCities[indexPath.row].tempString
-        content.image = UIImage(named: weatherInCities[indexPath.row].conditionName)
+        content.text = weather.nameOfCity
+        content.secondaryText = weather.tempString
+        content.image = UIImage(named: weather.conditionName)
         cell.contentConfiguration = content
         return cell
     }
@@ -118,8 +150,15 @@ extension ShortForecastViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true )
-        let detailedForecastVC = DetailedForecastViewController(weather: weatherInCities[indexPath.row])
+        var weather: CurrentWeather
+        if isFiltering {
+            weather = filteredWeather[indexPath.row]
+        } else {
+            weather = weatherInCities[indexPath.row]
+        }
+        let detailedForecastVC = DetailedForecastViewController(weather: weather)
         present(detailedForecastVC, animated: true)
+        searchController.searchBar.text = ""
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
@@ -160,6 +199,32 @@ extension ShortForecastViewController {
         }
     }
 }
-
+//MARK: - SearchResultsUpdating
+extension ShortForecastViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        filterContentForSearchedText(searchController.searchBar.text ?? "")
+    }
+    
+    private func filterContentForSearchedText(_ searchText: String) {
+       
+        filteredWeather = weatherInCities.filter({ weather in
+            return weather.nameOfCity.lowercased().contains(searchText.lowercased())
+        })
+        tableView.reloadData()
+    }
+    
+}
+//MARK: - SearchBarDelegate
+extension ShortForecastViewController: UISearchBarDelegate {
+    func searchBarButtonClicked(_ searchBar: UISearchBar) {
+        guard let textField = searchBar.text, !textField.isEmpty else { return }
+        NetworkManager.shared.getWeatherFor(city: textField) { [weak self] (weather) in
+            guard let self = self else { return }
+            let detailedForecastVC = DetailedForecastViewController(weather: weather)
+            self.present(detailedForecastVC, animated: true)
+            searchBar.text = ""
+        }
+    }
+}
 
 
