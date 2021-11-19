@@ -88,6 +88,10 @@ class ShortForecastViewController: UIViewController {
         searchController.searchBar.placeholder = "Поиск"
         navigationItem.searchController = searchController
         definesPresentationContext = true
+        searchController.searchBar.searchTextField.addTarget(self, action: #selector(searchButtonTapped), for: UIControl.Event.primaryActionTriggered)
+    }
+    @objc func searchButtonTapped(textField:UITextField) {
+        searchBarButtonClicked(searchController.searchBar)
     }
     
     @objc private func addNewCity() {
@@ -215,21 +219,9 @@ extension ShortForecastViewController: UISearchBarDelegate {
         guard let textField = searchBar.text, !textField.isEmpty else { return }
         NetworkManager.shared.getWeatherFor(city: textField) { [weak self] (weather) in
             guard let self = self else { return }
-                let detailedForecastVC = DetailedForecastViewController(weather: weather)
-                self.present(detailedForecastVC, animated: true)
+            let detailedForecastVC = DetailedForecastViewController(weather: weather)
+            self.present(detailedForecastVC, animated: true)
         }
-           
-        }
-        func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-            searchBar.text = ""
-            searchBar.endEditing(true)
-        }
-    }
-
-//MARK: - TextEditing
-extension ShortForecastViewController: UITextFieldDelegate {
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        searchBarButtonClicked(searchController.searchBar)
     }
 }
 
