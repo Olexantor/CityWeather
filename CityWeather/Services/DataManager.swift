@@ -6,21 +6,21 @@
 //
 
 class DataManager {
-  
-  static let share = DataManager()
-  
-  let cities = [
-    "Abakan",
-    "Barnaul",
-    "Gdov",
-    "Dubna",
-    "Yekaterinburg",
-    "Zlatoust",
-    "Izhevsk",
-    "Yoshkar-Ola",
-    "Kazan",
-    "Serov"
-  ]
-  
-  private init() {}
+    
+    static let share = DataManager()
+    
+    let cities = [
+        "Abakan",
+        "Barnaul",
+        "Gdov",
+        "Dubna",
+        "Yekaterinburg",
+        "Zlatoust",
+        "Izhevsk",
+        "Yoshkar-Ola",
+        "Kazan",
+        "Serov"
+    ]
+    
+    private init() {}
 }
