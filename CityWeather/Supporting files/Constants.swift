@@ -9,4 +9,4 @@ import Foundation
 
 let urlYandex = "https://api.weather.yandex.ru/v2/forecast?"
 let apiHeader = "X-Yandex-API-Key"
-let apiKey = "6c30f7a5-0b3d-4791-8137-4bc8d849da85"
+let apiKey = "c00df520-6b62-439c-9714-98d203465e8f"
